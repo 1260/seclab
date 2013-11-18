@@ -2,7 +2,6 @@ node 'seclab' {
   class { 'dnsmasq':
     interface      => 'eth1   ',
     listen_address => '192.168.55.1',
-    domain         => 'sl',
     port           => '53',
     expand_hosts   => true,
     enable_tftp    => false,
