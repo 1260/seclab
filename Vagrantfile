@@ -5,7 +5,10 @@ $script = <<SCRIPT
   grep -q -e 'eth0 -j MASQUERADE' /etc/network/interfaces
   if [ $? -ne 0 ]; then 
     ifdown eth1
+    ifdown eth2
     cat /etc/network/interfaces |perl -p -e 's:iface eth1 inet static:iface eth1 inet static\npost-up /sbin/iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE && /sbin/iptables -A FORWARD -i eth0 -o eth1 -m state --state RELATED,ESTABLISHED -j ACCEPT && /sbin/iptables -A FORWARD -i eth1 -o eth0 -j ACCEPT\npre-down for i in `iptables -t nat -L -n -x -v --line-numbers |grep MASQUERADE |grep eth0 |grep -o -e \"^[0-9]*\"`; do iptables -t nat -D POSTROUTING 1; done; for i in `iptables -L -n -x -v --line-numbers |grep eth0 |grep eth1 |grep -o -e \"^[0-9]*\"`; do iptables -D FORWARD 1; done:g' > /etc/network/interfaces.new && mv /etc/network/interfaces.new /etc/network/interfaces
+    sleep 5
+    ifup eth2
     ifup eth1
   else 
     exit 0
