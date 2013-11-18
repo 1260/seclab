@@ -18,7 +18,7 @@ SCRIPT
 VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "seclab"
-  # config.vm.box_url = "http://dev.dima.tu-berlin.de/webdav/seclab.box"
+  # config.vm.box_url = "http://dev.dima.tu-berlin.de/box/seclab.box"
   # config.vm.network :forwarded_port, guest: 80, host: 8080
   config.vm.network :public_network, :bridge => 'en0: Ethernet', ip: "192.168.55.1"
   config.vm.network :private_network, ip: "192.168.56.2"
